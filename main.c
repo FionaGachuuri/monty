@@ -73,6 +73,10 @@ int main(int argc, char *argv[])
 		{
 			nop_op(&stack, line_number);
 		}
+		else if (strcmp(opcode, "sub") == 0)
+		{
+			sub_op(&stack, line_number);
+		}
 		else
 		{
 			fprintf(stderr, "L%u: unknown instructions %s\n", line_number, opcode);
