@@ -44,4 +44,5 @@ void free_stack(stack_t *stack);
 void pint_op(stack_t **stack, unsigned int line_number);
 void execute_op(char *opcode, char *arg, stack_t **stack, unsigned int line_number);
 void pop_op(stack_t **stack, unsigned int line_number);
+void swap_op(stack_t **stack, unsigned int line_number);
 #endif /* MONTY_H */
