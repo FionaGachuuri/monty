@@ -5,12 +5,12 @@
 int main(int argc, char *argv[])
 {
         FILE *file;
-        char *line = NULL;
+        char *line_content = NULL;
         size_t length = 0;
         unsigned int line_number = 0;
         stack_t *stack = NULL;
         char *opcode, *arg;
-        int number;
+	int number;
 
         if (argc != 2)
         {
@@ -25,42 +25,48 @@ int main(int argc, char *argv[])
                 exit(EXIT_FAILURE);
         }
 
-        while (getline(&line, &length, file) != -1)
+        while (getline(&line_content, &length, file) != -1)
         {
                 line_number++;
-		
-		opcode = strtok(line, " \t\n");
+		opcode = strtok(line_content, " \t\n");
 
                 if (opcode == NULL || opcode[0] == '#')
                         continue;
+/*		execute_op(opcode, strtok(NULL, " \t\n"), &stack, line_number);
+		*/
 
                 if (strcmp(opcode, "push") == 0)
                 {
-			arg = strtok_r(NULL, " \t\n",&line);
+			arg = strtok(NULL, " \t\n");
                         if (arg == NULL || !valid_number(arg))
                         {
                                 fprintf(stderr, "L%u: usage: push integer\n", line_number);
-                                free(line);
+                                free(line_content);
                                 fclose(file);
+				free_stack(stack);
                                 exit(EXIT_FAILURE);
                         }
                         number = atoi(arg);
-                        push(&stack, line_number, number);
+                        push_op(&stack, line_number, number);
                 }
                 else if (strcmp(opcode, "pall") == 0)
                 {
-                        pall(&stack, line_number);
+                        pall_op(&stack, line_number);
                 }
-                else
+                else if(strcmp(opcode, "pint") == 0)
                 {
-                        fprintf(stderr, "L%u: unknown instructions %s\n", line_number, opcode);
-                        free(line);
+			 pint_op(&stack, line_number);
+		}
+		else
+		{
+			fprintf(stderr, "L%u: unknown instructions %s\n", line_number, opcode);
+                        free(line_content);
                         fclose(file);
                         exit(EXIT_FAILURE);
                 }
         }
 
-        free(line);
+        free(line_content);
         fclose(file);
         free_stack(stack);
         return 0;

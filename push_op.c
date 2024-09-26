@@ -1,13 +1,13 @@
 #include "monty.h"
 
 /**
-  *push -function that pushes an element to the stack.
+  *push_op -function that pushes an element to the stack.
   *@stack: double pointer to the top(head) of the stack
   *@line_number: line number in the bytecode file
   *@n: inyteger to be pushed to the stack
   */
 
-void push(stack_t **stack, unsigned int line_number, int n)
+void push_op(stack_t **stack, unsigned int line_number, int n)
 {
 	stack_t *new_node;
 	(void)line_number;
